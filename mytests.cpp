@@ -4,11 +4,8 @@
 using namespace std;
 
 int main (void) {
-    // WeightedGraph g = WeightedGraph::readFromSTDIN();
-    // g.printAdjacencyList();
+    WeightedGraph<long> g = WeightedGraph<long>::readFromSTDIN();
+    g.printAdjacencyList();
 
-    PriorityQueue queue;
-    queue.insert(4256589581, 38.1956);
-    queue.print();
     return 0;
 }

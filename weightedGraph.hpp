@@ -18,21 +18,22 @@
 #include "priorityQueue.hpp"
 using namespace std;
 
+template <typename T>
 class WeightedGraph {
     private:
-        unordered_map<long, pair<double, double> > coords;
-        unordered_map<long, unordered_map<long, pair<double, string> > > adjacencyList;
+        unordered_map<T, pair<double, double> > coords;
+        unordered_map<T, unordered_map<T, double > > adjacencyList;
 		int listSize;
     public:
-                                WeightedGraph();
-                                WeightedGraph(const WeightedGraph &other);
-                                ~WeightedGraph();
-                WeightedGraph   operator=(const WeightedGraph &other);
-                void            addEdge(long u, long v, double weight, const string& location);
-		        void            printAdjacencyList() const;
-        static  WeightedGraph   readFromSTDIN();
+                                    WeightedGraph();
+                                    WeightedGraph(const WeightedGraph &other);
+                                    ~WeightedGraph();
+                WeightedGraph<T>&   operator=(const WeightedGraph &other);
+                void                addEdge(const T& u, const T& v, double weight);
+		        void                printAdjacencyList() const;
+        static  WeightedGraph<T>&   readFromSTDIN();
 
-        // get functions
+        // getter functions
         unordered_map<long, pair<double, double> > getCoords() { return coords; };
                 int             getSize() { return listSize; }
 };

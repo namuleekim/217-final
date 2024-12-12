@@ -4,28 +4,32 @@
 //==============================================================
 // Default Constructor
 //==============================================================
-WeightedGraph::WeightedGraph() {
+template <class T>
+WeightedGraph<T>::WeightedGraph() {
     listSize = 0;
 }
 
 //==============================================================
 // Copy Constructor
 //==============================================================
-WeightedGraph::WeightedGraph(const WeightedGraph &other) {
+template <class T>
+WeightedGraph<T>::WeightedGraph(const WeightedGraph &other) {
     listSize = other.listSize;
 }
 
 //==============================================================
 // Destructor
 //==============================================================
-WeightedGraph::~WeightedGraph() {
+template <class T>
+WeightedGraph<T>::~WeightedGraph() {
 }
 
 
 //==============================================================
 // Assignment operator
 //==============================================================
-WeightedGraph WeightedGraph::operator=(const WeightedGraph &other) {
+template <class T>
+WeightedGraph<T>& WeightedGraph<T>::operator=(const WeightedGraph &other) {
     listSize = other.listSize;
     return *this;
 }
@@ -33,20 +37,22 @@ WeightedGraph WeightedGraph::operator=(const WeightedGraph &other) {
 //==============================================================  dijkstras
 // addEdge
 //==============================================================
-void WeightedGraph::addEdge(long u, long v, double weight, const string& location) {
+template <class T>
+void WeightedGraph<T>::addEdge(const T& u, const T& v, double weight) {
     // u and v are IDs of nodes, so coords[u] = {x, y} and coords[v] = {x, y}
     // adjList[u][v] = pair ( weight , location name if one provided )
-    adjacencyList[u][v] = make_pair(weight, location);
+    adjacencyList[u][v] = weight;
 }
 
 //==============================================================
 // readFromSTDIN
 //==============================================================
-WeightedGraph WeightedGraph::readFromSTDIN() {
+template <class T>
+WeightedGraph<T>& WeightedGraph<T>::readFromSTDIN() {
     int n, m;
     cin >> n >> m;
 
-    WeightedGraph g;
+    WeightedGraph<long> g;
     g.listSize = n;
 
     for (int i = 0; i < n; i++) {
@@ -59,26 +65,18 @@ WeightedGraph WeightedGraph::readFromSTDIN() {
     for (int i = 0; i < m; i++) {
         long long u, v;
         double weight;
-        string location;
 
         cin >> u >> v >> weight;
-
-        if (cin.peek() == '\n') {
-        location = "";  
-        } else {
-            cin.ignore();  
-            getline(cin, location);
-        }
-            g.addEdge(u, v, weight, location);
-        }
-
+        g.addEdge(u, v, weight);
+    }
     return g;
 }
 
 //==============================================================
 // printAdjacencyList
 //==============================================================
-void WeightedGraph::printAdjacencyList() const {
+template <class T>
+void WeightedGraph<T>::printAdjacencyList() const {
     for (const auto& node : adjacencyList) {
         long u = node.first;
         cout << "Vertex " << u << ": ";
