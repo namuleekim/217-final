@@ -37,15 +37,29 @@ WeightedGraph<T>& WeightedGraph<T>::operator=(const WeightedGraph &other) {
     return *this;
 }
 
-//==============================================================  dijkstras
+//============================================================== 
 // addEdge
 //==============================================================
 template <class T>
 void WeightedGraph<T>::addEdge(const T& u, const T& v, double weight) {
-    // u and v are IDs of nodes, so coords[u] = {x, y} and coords[v] = {x, y}
-    // adjList[u][v] = weight
     adjacencyList[u][v] = weight;
     
+}
+
+//============================================================== 
+// edgeIn
+//==============================================================
+template <class T>
+bool WeightedGraph<T>::edgeIn(const T& u, const T& v) {
+    return adjacencyList[u].find(v) != adjacencyList[u].end();
+}
+
+//==============================================================  
+// addVertex
+//==============================================================
+template <class T>
+void WeightedGraph<T>::addVertex(const T& id, double x, double y) {
+    coords[id] = make_pair(x, y);
 }
 
 //==============================================================
@@ -63,7 +77,7 @@ WeightedGraph<T> WeightedGraph<T>::readFromSTDIN() {
         T id;
         double x, y;
         cin >> id >> x >> y;
-        g.coords[id] = make_pair(x, y);
+        g.addVertex(id, x, y);
     }
 
     for (int i = 0; i < m + 1; i++) {

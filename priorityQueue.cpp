@@ -90,3 +90,21 @@ void PriorityQueue::decreaseKey(long nodeId, double newPriority) {
     heapifyUp(index);
 }
 
+
+void PriorityQueue::printMinHeap() {
+    cout << "Priority Queue (Min-Heap):" << endl;
+    cout << left << setw(10) << "Index" << setw(10) << "Node ID" << "Priority" << endl;
+    cout << "-----------------------------------" << endl;
+
+    for (size_t i = 0; i < minHeap.size(); ++i) {
+        cout << left << setw(10) << i 
+             << setw(10) << minHeap[i].first 
+             << minHeap[i].second << endl;
+    }
+
+    cout << "\nNode positions in the heap:" << endl;
+    for (const auto& entry : position) {
+        cout << "Node " << entry.first << " is at index " << entry.second << endl;
+    }
+}
+
