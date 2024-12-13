@@ -3,21 +3,19 @@
 // Andrew McCutchan
 // 12/18/2024
 //=========================================================
-
-#ifndef WEIGHTED_GRAPH_HPP
-#define WEIGHTED_GRAPH_HPP
-
-
 #include <iostream>
 #include <unordered_map>
 #include <string>
 #include <vector>
 #include <utility>
+#include <fstream>
 #include <sstream>
-#include "customexceptions.hpp"
 #include "priorityQueue.hpp"
 using namespace std;
 
+
+#ifndef WEIGHTED_GRAPH_HPP
+#define WEIGHTED_GRAPH_HPP
 template <typename T>
 class WeightedGraph {
     private:
@@ -31,11 +29,12 @@ class WeightedGraph {
                 WeightedGraph<T>&   operator=(const WeightedGraph &other);
                 void                addEdge(const T& u, const T& v, double weight);
 		        void                printAdjacencyList() const;
-        static  WeightedGraph<T>   readFromSTDIN();
+        static  WeightedGraph<T>    readFromSTDIN();
+        static  WeightedGraph<T>    readFromFile(const string& filename);
 
         // getter functions
-        unordered_map<T, pair<double, double> > getCoords() const { return coords; };
-                int             getSize() const { return listSize; }
+                unordered_map<T, pair<double, double> > getCoords() const { return coords; };
+                int                 getSize() const { return listSize; }
 };
 
 #endif

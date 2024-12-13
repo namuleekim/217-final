@@ -4,11 +4,30 @@
 using namespace std;
 
 int main (void) {
-    WeightedGraph<long> g = WeightedGraph<long>::readFromSTDIN();
-    g.printAdjacencyList();
-
-    auto coords = g.getCoords()[3531016709];
     
 
+    while (true) {
+        string filename;
+        cout << "Enter file: ";
+        cin >> filename;
+        if (filename == "q") {
+            break;
+        }
+        WeightedGraph<long> graph = WeightedGraph<long>::readFromFile(filename);
+        cout << "Adjacency List: " << endl;
+        graph.printAdjacencyList();
+
+        cout << "Press any key to enter a new file" << endl;
+        while (true) {
+            
+
+            double x, y;
+            cout << "enter coords: ";
+            cin >> x >> y;
+            make_pair(x, y);
+        }
+    }
+
+    
     return 0;
 }

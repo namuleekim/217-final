@@ -15,16 +15,15 @@ WeightedGraph<T>::WeightedGraph() {
 template <class T>
 WeightedGraph<T>::WeightedGraph(const WeightedGraph &other) {
     listSize = other.listSize;
+    coords = other.coords;
+    adjacencyList = other.adjacencyList;
 }
 
 //==============================================================
 // Destructor
 //==============================================================
 template <class T>
-WeightedGraph<T>::~WeightedGraph() {
-    coords.clear();
-    adjacencyList.clear();
-}
+WeightedGraph<T>::~WeightedGraph() {}
 
 
 //==============================================================
@@ -32,9 +31,8 @@ WeightedGraph<T>::~WeightedGraph() {
 //==============================================================
 template <class T>
 WeightedGraph<T>& WeightedGraph<T>::operator=(const WeightedGraph &other) {
-    coords.clear();
-    adjacencyList.clear();
-
+    coords = other.coords;
+    adjacencyList = other.adjacencyList;
     listSize = other.listSize;
     return *this;
 }
@@ -58,7 +56,7 @@ WeightedGraph<T> WeightedGraph<T>::readFromSTDIN() {
     int n, m;
     cin >> n >> m;
 
-    WeightedGraph<long> g;
+    WeightedGraph<T> g;
     g.listSize = n;
 
     for (int i = 0; i < n; i++) {
@@ -70,15 +68,54 @@ WeightedGraph<T> WeightedGraph<T>::readFromSTDIN() {
 
     for (int i = 0; i < m + 1; i++) {
         string line;
-        getline(cin, line); 
+        getline(cin, line);
         istringstream iss(line);
 
         T u, v;
         double weight;
         if (iss >> u >> v >> weight) {
             g.addEdge(u, v, weight);
-        }
+        }  
     }
+    return g;
+}
+
+//==============================================================
+// readFromFile
+//==============================================================
+template <class T>
+WeightedGraph<T> WeightedGraph<T>::readFromFile(const string& filename) {
+    int n, m;
+    ifstream file(filename);
+
+    if (!file) {
+        cerr << "File not found" << endl;
+        return WeightedGraph<T>();
+    }
+
+    file >> n >> m;
+    WeightedGraph<T> g;
+    g.listSize = n;
+
+    for (int i = 0; i < n; i++) {
+        T id;
+        double x, y;
+        file >> id >> x >> y;
+        g.coords[id] = make_pair(x, y);
+    }
+
+    for (int i = 0; i < m + 1; i++) {
+        string line;
+        getline(file, line);
+        istringstream iss(line);
+
+        T u, v;
+        double weight;
+        if (iss >> u >> v >> weight) {
+            g.addEdge(u, v, weight);
+        }  
+    }
+    file.close();
     return g;
 }
 
@@ -92,8 +129,9 @@ void WeightedGraph<T>::printAdjacencyList() const {
         for (const auto& [neighbor, weight] : neighbors) {
             cout << " -> (" << neighbor << ", " << weight << ") ";
         }
-        cout << std::endl;
+        cout << endl;
     }
 }   
 
 template class WeightedGraph<long>;
+template class WeightedGraph<int>;
