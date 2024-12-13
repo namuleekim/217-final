@@ -13,7 +13,7 @@
 #include <string>
 #include <vector>
 #include <utility>
-#include <fstream>
+#include <sstream>
 #include "customexceptions.hpp"
 #include "priorityQueue.hpp"
 using namespace std;
@@ -31,11 +31,11 @@ class WeightedGraph {
                 WeightedGraph<T>&   operator=(const WeightedGraph &other);
                 void                addEdge(const T& u, const T& v, double weight);
 		        void                printAdjacencyList() const;
-        static  WeightedGraph<T>&   readFromSTDIN();
+        static  WeightedGraph<T>   readFromSTDIN();
 
         // getter functions
-        unordered_map<long, pair<double, double> > getCoords() { return coords; };
-                int             getSize() { return listSize; }
+        unordered_map<T, pair<double, double> > getCoords() const { return coords; };
+                int             getSize() const { return listSize; }
 };
 
 #endif
