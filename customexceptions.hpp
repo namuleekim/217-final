@@ -20,10 +20,5 @@ public:
     }
 };
 
-class vertex_exception : public runtime_error {
-public:
-    vertex_exception(int u) : runtime_error("Vertex " + to_string(u) + " in the graph.") {}
-};
-
 
 #endif 

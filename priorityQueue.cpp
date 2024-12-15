@@ -3,12 +3,14 @@
 //==============================================================
 // Default Constructor
 //==============================================================
-PriorityQueue::PriorityQueue() {}
+template <class T>
+PriorityQueue<T>::PriorityQueue() {}
 
 //==============================================================
 // Copy Constructor
 //==============================================================
-PriorityQueue::PriorityQueue(const PriorityQueue& other) {
+template <class T>
+PriorityQueue<T>::PriorityQueue(const PriorityQueue& other) {
     minHeap = other.minHeap;
     position = other.position;
 }
@@ -16,7 +18,8 @@ PriorityQueue::PriorityQueue(const PriorityQueue& other) {
 //==============================================================
 // Destructor
 //==============================================================
-PriorityQueue::~PriorityQueue() {
+template <class T>
+PriorityQueue<T>::~PriorityQueue() {
     minHeap.clear();
     position.clear();
 }
@@ -24,7 +27,8 @@ PriorityQueue::~PriorityQueue() {
 //==============================================================
 // Assignment Operator
 //==============================================================
-PriorityQueue& PriorityQueue::operator=(const PriorityQueue& other) {
+template <class T>
+PriorityQueue<T>& PriorityQueue<T>::operator=(const PriorityQueue<T>& other) {
     if (this != &other) {
         minHeap = other.minHeap;
         position = other.position;
@@ -35,12 +39,13 @@ PriorityQueue& PriorityQueue::operator=(const PriorityQueue& other) {
 //==============================================================
 // Insert
 //==============================================================
-void PriorityQueue::insert(long nodeId, double priority) {
+template <class T>
+void PriorityQueue<T>::insert(const T& nodeId, double priority) {
     if (position.count(nodeId) > 0) {
         throw runtime_error("Node already exists in priority queue");
     }
 
-    minHeap.push_back({nodeId, priority});
+    minHeap.push_back(make_pair(nodeId, priority));
     position[nodeId] = minHeap.size() - 1;
     
     heapifyUp(minHeap.size() - 1);
@@ -49,14 +54,15 @@ void PriorityQueue::insert(long nodeId, double priority) {
 //==============================================================
 // Extract Min
 //==============================================================
-pair<long, double> PriorityQueue::extractMin() {
+template <class T>
+pair<T, double> PriorityQueue<T>::extractMin() {
     if (isEmpty()) {
         throw runtime_error("Priority queue is empty");
     }
 
-    pair<long, double> minElement = minHeap[0];
+    pair<T, double> minElement = minHeap[0];
 
-    long lastNodeId = minHeap.back().first;
+    T lastNodeId = minHeap.back().first;
     minHeap[0] = minHeap.back();
     
     minHeap.pop_back();
@@ -74,7 +80,8 @@ pair<long, double> PriorityQueue::extractMin() {
 //==============================================================
 // Decrease Key 
 //==============================================================
-void PriorityQueue::decreaseKey(long nodeId, double newPriority) {
+template <class T>
+void PriorityQueue<T>::decreaseKey(const T& nodeId, double newPriority) {
     if (position.count(nodeId) == 0) {
         throw runtime_error("Node not found in priority queue");
     }
@@ -90,21 +97,20 @@ void PriorityQueue::decreaseKey(long nodeId, double newPriority) {
     heapifyUp(index);
 }
 
-
-void PriorityQueue::printMinHeap() {
+//==============================================================
+// Decrease Key 
+//==============================================================
+template <class T>
+void PriorityQueue<T>::printMinHeap() {
     cout << "Priority Queue (Min-Heap):" << endl;
-    cout << left << setw(10) << "Index" << setw(10) << "Node ID" << "Priority" << endl;
     cout << "-----------------------------------" << endl;
 
     for (size_t i = 0; i < minHeap.size(); ++i) {
-        cout << left << setw(10) << i 
-             << setw(10) << minHeap[i].first 
+        cout << i << ": "
+             << minHeap[i].first << ", "
              << minHeap[i].second << endl;
-    }
-
-    cout << "\nNode positions in the heap:" << endl;
-    for (const auto& entry : position) {
-        cout << "Node " << entry.first << " is at index " << entry.second << endl;
     }
 }
 
+template class PriorityQueue<long>;
+template class PriorityQueue<int>;

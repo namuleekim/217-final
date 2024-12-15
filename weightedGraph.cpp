@@ -1,6 +1,5 @@
 #include "weightedGraph.hpp"
 
-
 //==============================================================
 // Default Constructor
 //==============================================================
@@ -13,7 +12,7 @@ WeightedGraph<T>::WeightedGraph() {
 // Copy Constructor
 //==============================================================
 template <class T>
-WeightedGraph<T>::WeightedGraph(const WeightedGraph &other) {
+WeightedGraph<T>::WeightedGraph(const WeightedGraph<T> &other) {
     listSize = other.listSize;
     coords = other.coords;
     adjacencyList = other.adjacencyList;
@@ -25,12 +24,11 @@ WeightedGraph<T>::WeightedGraph(const WeightedGraph &other) {
 template <class T>
 WeightedGraph<T>::~WeightedGraph() {}
 
-
 //==============================================================
 // Assignment operator
 //==============================================================
 template <class T>
-WeightedGraph<T>& WeightedGraph<T>::operator=(const WeightedGraph &other) {
+WeightedGraph<T>& WeightedGraph<T>::operator=(const WeightedGraph<T> &other) {
     coords = other.coords;
     adjacencyList = other.adjacencyList;
     listSize = other.listSize;
@@ -83,11 +81,11 @@ WeightedGraph<T> WeightedGraph<T>::readFromSTDIN() {
     for (int i = 0; i < m + 1; i++) {
         string line;
         getline(cin, line);
-        istringstream iss(line);
+        istringstream street(line);
 
         T u, v;
         double weight;
-        if (iss >> u >> v >> weight) {
+        if (street >> u >> v >> weight) {
             g.addEdge(u, v, weight);
         }  
     }
@@ -103,8 +101,7 @@ WeightedGraph<T> WeightedGraph<T>::readFromFile(const string& filename) {
     ifstream file(filename);
 
     if (!file) {
-        cerr << "File not found" << endl;
-        return WeightedGraph<T>();
+        throw runtime_error("file not found");
     }
 
     file >> n >> m;
@@ -121,16 +118,24 @@ WeightedGraph<T> WeightedGraph<T>::readFromFile(const string& filename) {
     for (int i = 0; i < m + 1; i++) {
         string line;
         getline(file, line);
-        istringstream iss(line);
+        istringstream street(line);
 
         T u, v;
         double weight;
-        if (iss >> u >> v >> weight) {
+        if (street >> u >> v >> weight) {
             g.addEdge(u, v, weight);
         }  
     }
     file.close();
     return g;
+}
+
+//==============================================================
+// Dijkstra's
+//==============================================================
+template <class T>
+vector<pair<double, double> > WeightedGraph<T>::dijkstras(pair<double, double> start, pair<double, double> end) {
+    
 }
 
 //==============================================================
@@ -146,6 +151,11 @@ void WeightedGraph<T>::printAdjacencyList() const {
         cout << endl;
     }
 }   
+
+//==============================================================
+// findClosestNode
+//==============================================================
+
 
 template class WeightedGraph<long>;
 template class WeightedGraph<int>;
