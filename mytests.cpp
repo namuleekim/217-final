@@ -1,15 +1,15 @@
 #include <iostream> 
 #include "weightedGraph.hpp"
 #include "priorityQueue.hpp"
-//#include "weightedGraph.cpp"
-//#include "priorityQueue.cpp"
+#include "weightedGraph.cpp"
+#include "priorityQueue.cpp"
 
 //#include <typeinfo>
 
 using namespace std;
 
 int main (void) {
-    WeightedGraph<long> graph;
+    WeightedGraph<long long> graph; // using long long for Windows compatability
     
     while (true) {
         string filename;
@@ -22,7 +22,7 @@ int main (void) {
         }
 
         try {
-            graph = WeightedGraph<long>::readFromFile(filename);
+            graph = WeightedGraph<long long>::readFromFile(filename);
             cout << "Graph loaded successfully from " << filename << endl;
         } catch (const runtime_error& e) {
             cout << "Error: " << e.what() << ". Try running again with correct graph." << endl;
@@ -66,6 +66,7 @@ int main (void) {
 
             cout << "start coordinates are: " << x_1 << ", " << y_1 << endl;
             cout << "end coordinates are: " << x_2 << ", " << y_2 << endl;
+
         
 
             pair<double, double> start = make_pair(x_1, y_1);

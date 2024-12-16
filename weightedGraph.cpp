@@ -98,28 +98,35 @@ WeightedGraph<T> WeightedGraph<T>::readFromSTDIN() {
 template <class T>
 WeightedGraph<T> WeightedGraph<T>::readFromFile(const string& filename) {
     int n, m;
+    string line;
     ifstream file(filename);
 
     if (!file) {
         throw runtime_error("file not found");
     }
 
-    file >> n >> m;
+
+    getline(file, line);
+    istringstream first(line);
+    first >> n >> m;
     WeightedGraph<T> g;
     g.listSize = n;
+    
 
     for (int i = 0; i < n; i++) {
         T id;
         double x, y;
-        file >> id >> x >> y;
+        getline(file, line);
+        istringstream locs(line); // vertex
+        locs >> id >> x >> y;
+        cout << id << ", " << x << ", " << y << endl;
         g.coords[id] = make_pair(x, y);
     }
 
     for (int i = 0; i < m + 1; i++) {
-        string line;
+        // string line;
         getline(file, line);
-        istringstream street(line);
-
+        istringstream street(line); //street
         T u, v;
         double weight;
         if (street >> u >> v >> weight) {
